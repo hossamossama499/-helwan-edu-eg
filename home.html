@@ -1,132 +1,208 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>بوابة الطالب - الصفحة الرئيسية</title>
+  <title>الصفحة الرئيسية - بوابة الطالب</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
     body {
-      font-family: 'Cairo', sans-serif;
-      margin: 0;
-      background: #f0f0f0;
-    }
-    .sidebar {
-      position: fixed;
-      right: 0;
-      top: 0;
-      width: 250px;
-      height: 100%;
-      background-color: #222;
+      background: url('https://yu.helwan.edu.eg/Imgs/bg.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #fff;
-      padding-top: 20px;
-      transition: transform 0.3s ease;
-      transform: translateX(0);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
-    .sidebar h3 {
-      text-align: center;
+
+    .sidebar {
+      width: 220px;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      color: #00ccff;
       margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .sidebar ul li:hover {
+      color: #ffcc00;
+    }
+
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .toggle-btn {
+      font-size: 28px;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .logout-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background-color: #cc0000;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    h3 {
+      margin-bottom: 15px;
+      font-size: 24px;
       color: #00ccff;
     }
-    .sidebar a {
-      display: block;
-      padding: 12px 20px;
-      color: #fff;
-      text-decoration: none;
+
+    p {
+      font-size: 18px;
+      margin-bottom: 10px;
     }
-    .sidebar a:hover {
-      background-color: #444;
+
+    table {
+      width: 100%;
+      background-color: #fff;
+      color: #000;
+      border-collapse: collapse;
+      margin-top: 15px;
     }
-    .content {
-      margin-right: 250px;
-      padding: 20px;
+
+    th, td {
+      border: 1px solid #999;
+      padding: 10px;
+      text-align: center;
     }
+
+    th {
+      background-color: #eee;
+      font-weight: bold;
+    }
+
+    .empty-msg {
+      color: red;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
     .section {
       display: none;
     }
+
     .section.active {
       display: block;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      background-color: #fff;
-    }
-    th, td {
-      border: 1px solid #999;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background-color: #eee;
-    }
-    .red { color: red; }
   </style>
 </head>
 <body>
 
-<div class="sidebar">
-  <h3>القائمة</h3>
-  <a href="#" onclick="showSection('info')">البيانات الشخصية</a>
-  <a href="#" onclick="showSection('schedule')">الجدول الدراسي</a>
-  <a href="#" onclick="showSection('exams')">جدول الامتحانات</a>
-  <a href="#" onclick="showSection('results')">نتائج الامتحانات</a>
-</div>
-
-<div class="content">
-  <div class="section active" id="info">
-    <h2>البيانات الشخصية</h2>
-    <p>👤 الاسم: <strong id="studentName"></strong></p>
-    <p>🎓 الكلية: <strong>حاسبات وذكاء اصطناعي</strong></p>
-    <p>📘 الفرقة: <strong>الأولى</strong></p>
+  <div class="sidebar" id="sidebar">
+    <h2>القائمة</h2>
+    <ul>
+      <li onclick="showSection('personal')">البيانات الشخصية</li>
+      <li onclick="showSection('schedule')">الجدول الدراسي</li>
+      <li onclick="showSection('exam')">جدول الامتحانات</li>
+      <li onclick="showSection('results')">نتائج الامتحانات</li>
+    </ul>
   </div>
 
-  <div class="section" id="schedule">
-    <h2>الجدول الدراسي</h2>
-    <p class="red">لا يوجد جدول حالياً.</p>
+  <div class="content">
+    <button class="toggle-btn" onclick="toggleSidebar()">☰ القائمة</button>
+    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+
+    <!-- البيانات الشخصية -->
+    <div class="section active" id="personal">
+      <h3>البيانات الشخصية</h3>
+      <p><strong>الاسم:</strong> حسام أسامة نصر عبد الشافي</p>
+      <p><strong>الكلية:</strong> حاسبات وذكاء اصطناعي</p>
+      <p><strong>الفرقة:</strong> الأولى</p>
+      <p><strong>رقم الجلوس:</strong> 212400295</p>
+    </div>
+
+    <!-- الجدول الدراسي -->
+    <div class="section" id="schedule">
+      <h3>الجدول الدراسي</h3>
+      <p class="empty-msg">لا يوجد جدول حاليًا</p>
+    </div>
+
+    <!-- جدول الامتحانات -->
+    <div class="section" id="exam">
+      <h3>جدول الامتحانات</h3>
+      <p class="empty-msg">لا يوجد جدول حاليًا</p>
+    </div>
+
+    <!-- نتائج الامتحانات -->
+    <div class="section" id="results">
+      <h3>نتائج الامتحانات - الفصل الثاني 2024-2025</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>الكود</th><th>المقرر</th><th>الساعات</th><th>الدرجة</th><th>التقدير</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>111</td><td>إلكترونيات 1</td><td>3</td><td>61</td><td>م</td></tr>
+          <tr><td>223</td><td>تكنولوجيا الإنترنت</td><td>3</td><td>74</td><td>ج</td></tr>
+          <tr><td>112</td><td>تراكيب محددة</td><td>3</td><td>69</td><td>م</td></tr>
+          <tr><td>240</td><td>بحوث العمليات</td><td>3</td><td>63</td><td>م</td></tr>
+          <tr><td>310</td><td>أساسيات نظم المعلومات</td><td>3</td><td>75</td><td>ج</td></tr>
+        </tbody>
+      </table>
+      <p><strong>📊 التقدير الكلي:</strong> جيد</p>
+      <p><strong>📚 الساعات المطلوبة:</strong> 15</p>
+      <p><strong>✅ الساعات المكتسبة:</strong> 15</p>
+    </div>
   </div>
 
-  <div class="section" id="exams">
-    <h2>جدول الامتحانات</h2>
-    <p class="red">لا يوجد جدول حالياً.</p>
-  </div>
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
 
-  <div class="section" id="results">
-    <h2>نتائج الامتحانات</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>الكود</th><th>المقرر</th><th>الساعات</th><th>الدرجة</th><th>التقدير</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>111</td><td>إلكترونيات 1</td><td>3</td><td>61</td><td>م</td></tr>
-        <tr><td>223</td><td>تكنولوجيا الإنترنت</td><td>3</td><td>74</td><td>ج</td></tr>
-        <tr><td>112</td><td>تراكيب محددة</td><td>3</td><td>69</td><td>م</td></tr>
-        <tr><td>240</td><td>بحوث العمليات</td><td>3</td><td>63</td><td>م</td></tr>
-        <tr><td>310</td><td>أساسيات نظم المعلومات</td><td>3</td><td>75</td><td>ج</td></tr>
-      </tbody>
-    </table>
-    <br>
-    <p><strong>📊 التقدير الكلي:</strong> جيد</p>
-    <p><strong>📚 الساعات المطلوبة:</strong> 15</p>
-    <p><strong>✅ الساعات المكتسبة:</strong> 15</p>
-  </div>
-</div>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("hidden");
+    }
 
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const user = urlParams.get("user");
-  if (user === "212400295") {
-    document.getElementById("studentName").innerText = "حسام أسامة نصر عبد الشافي";
-  }
-
-  function showSection(id) {
-    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-  }
-</script>
+    function logout() {
+      window.location.href = "index.html";
+    }
+  </script>
 
 </body>
 </html>
