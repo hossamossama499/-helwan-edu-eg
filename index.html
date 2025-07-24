@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>MyU | بوابة الخدمات الطلابية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: url('https://yu.helwan.edu.eg/Imgs/bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .box {
+      background-color: rgba(40, 40, 40, 0.95);
+      width: 90%;
+      max-width: 400px;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      color: #fff;
+      text-align: center;
+    }
+    svg { margin-bottom: 20px; }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    input { background-color: #eee; color: #000; }
+    button {
+      background-color: #dd3344;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
+    #loading { display: none; font-size: 15px; margin: 10px 0; }
+    #error { color: red; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="box" id="loginBox">
+    <svg width="100" height="100" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="256" cy="256" r="250" fill="#003366"/>
+      <text x="50%" y="44%" text-anchor="middle" fill="#fff" font-size="30" font-family="Cairo, sans-serif" direction="rtl">جامعة</text>
+      <text x="50%" y="60%" text-anchor="middle" fill="#ffcc00" font-size="38" font-weight="bold" font-family="Cairo, sans-serif" direction="rtl">حلوان</text>
+      <text x="50%" y="75%" text-anchor="middle" fill="#fff" font-size="18" font-family="Cairo, sans-serif" direction="rtl">بوابة الطالب</text>
+    </svg>
+    <div class="title">MyU - بوابة الخدمات الطلابية</div>
+    <input id="user" placeholder="كود الطالب" />
+    <input id="pass" type="password" placeholder="كلمة المرور" />
+    <button onclick="login()">تسجيل الدخول</button>
+    <div id="loading">⏳ جاري التحقق...</div>
+    <p id="error"></p>
+  </div>
+
+  <script>
+    const students = { "212400295": "حسام أسامة نصر عبد الشافي" };
+    const password = "30510172100476";
+
+    function login() {
+      const user = document.getElementById("user").value;
+      const pass = document.getElementById("pass").value;
+      const error = document.getElementById("error");
+      const loading = document.getElementById("loading");
+
+      error.innerText = "";
+      if (students[user] && pass === password) {
+        loading.style.display = "block";
+        setTimeout(() => {
+          window.location.href = "home.html?user=" + encodeURIComponent(user);
+        }, 2000);
+      } else {
+        error.innerText = "❌ كود الطالب أو كلمة المرور غير صحيحة";
+      }
+    }
+  </script>
+</body>
+</html>
