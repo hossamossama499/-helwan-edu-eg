@@ -2,95 +2,66 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>الصفحة الرئيسية - بوابة الطالب</title>
+  <title>بوابة الطالب</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-
     body {
       background: url('https://yu.helwan.edu.eg/Imgs/bg.jpg') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
       display: flex;
       height: 100vh;
-      overflow: hidden;
     }
 
     .sidebar {
       width: 220px;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.9);
       padding: 20px;
-      transition: transform 0.3s ease;
     }
 
-    .sidebar.hidden {
-      transform: translateX(-100%);
-    }
-
-    .sidebar h2 {
-      font-size: 22px;
+    .sidebar h3 {
       color: #00ccff;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      font-size: 22px;
       text-align: center;
     }
 
-    .sidebar ul {
-      list-style: none;
-    }
-
-    .sidebar ul li {
-      margin: 15px 0;
-      font-size: 18px;
+    .sidebar button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background-color: #222;
+      border: none;
+      color: #fff;
+      font-size: 16px;
       cursor: pointer;
-      transition: color 0.3s;
+      text-align: right;
+      border-radius: 8px;
     }
 
-    .sidebar ul li:hover {
-      color: #ffcc00;
+    .sidebar button:hover {
+      background-color: #00ccff;
+      color: #000;
     }
 
     .content {
       flex: 1;
       padding: 30px;
+      background-color: rgba(0, 0, 0, 0.85);
       overflow-y: auto;
-      position: relative;
     }
 
-    .toggle-btn {
-      font-size: 28px;
-      position: absolute;
-      right: 20px;
-      top: 20px;
-      background-color: #111;
-      color: #fff;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 8px;
-    }
-
-    .logout-btn {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-      background-color: #cc0000;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    h3 {
-      margin-bottom: 15px;
-      font-size: 24px;
+    h2 {
       color: #00ccff;
+      font-size: 26px;
+      margin-bottom: 15px;
     }
 
     p {
-      font-size: 18px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin: 8px 0;
     }
 
     table {
@@ -98,54 +69,59 @@
       background-color: #fff;
       color: #000;
       border-collapse: collapse;
-      margin-top: 15px;
+      margin-top: 20px;
     }
 
     th, td {
       border: 1px solid #999;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
     }
 
     th {
       background-color: #eee;
-      font-weight: bold;
     }
 
-    .empty-msg {
-      color: red;
+    .footer-info {
+      margin-top: 25px;
       font-size: 18px;
-      margin-top: 10px;
     }
 
-    .section {
+    .hidden {
       display: none;
     }
 
-    .section.active {
-      display: block;
+    .logout-btn {
+      background-color: #cc0000;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 20px;
     }
+
   </style>
 </head>
 <body>
 
-  <div class="sidebar" id="sidebar">
-    <h2>القائمة</h2>
-    <ul>
-      <li onclick="showSection('personal')">البيانات الشخصية</li>
-      <li onclick="showSection('schedule')">الجدول الدراسي</li>
-      <li onclick="showSection('exam')">جدول الامتحانات</li>
-      <li onclick="showSection('results')">نتائج الامتحانات</li>
-    </ul>
+  <!-- القائمة الجانبية -->
+  <div class="sidebar">
+    <h3>القائمة</h3>
+    <button onclick="showSection('personal')">البيانات الشخصية</button>
+    <button onclick="showSection('schedule')">الجدول الدراسي</button>
+    <button onclick="showSection('exam')">جدول الامتحانات</button>
+    <button onclick="showSection('results')">نتائج الامتحانات</button>
+    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
   </div>
 
+  <!-- المحتوى -->
   <div class="content">
-    <button class="toggle-btn" onclick="toggleSidebar()">☰ القائمة</button>
-    <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
 
     <!-- البيانات الشخصية -->
-    <div class="section active" id="personal">
-      <h3>البيانات الشخصية</h3>
+    <div id="personal" class="section">
+      <h2>البيانات الشخصية</h2>
       <p><strong>الاسم:</strong> حسام أسامة نصر عبد الشافي</p>
       <p><strong>الكلية:</strong> حاسبات وذكاء اصطناعي</p>
       <p><strong>الفرقة:</strong> الأولى</p>
@@ -153,20 +129,20 @@
     </div>
 
     <!-- الجدول الدراسي -->
-    <div class="section" id="schedule">
-      <h3>الجدول الدراسي</h3>
-      <p class="empty-msg">لا يوجد جدول حاليًا</p>
+    <div id="schedule" class="section hidden">
+      <h2>الجدول الدراسي</h2>
+      <p style="color: red;">لا يوجد جدول حاليًا</p>
     </div>
 
     <!-- جدول الامتحانات -->
-    <div class="section" id="exam">
-      <h3>جدول الامتحانات</h3>
-      <p class="empty-msg">لا يوجد جدول حاليًا</p>
+    <div id="exam" class="section hidden">
+      <h2>جدول الامتحانات</h2>
+      <p style="color: red;">لا يوجد جدول حاليًا</p>
     </div>
 
     <!-- نتائج الامتحانات -->
-    <div class="section" id="results">
-      <h3>نتائج الامتحانات - الفصل الثاني 2024-2025</h3>
+    <div id="results" class="section hidden">
+      <h2>نتائج الامتحانات - الفصل الثاني 2024‑2025</h2>
       <table>
         <thead>
           <tr>
@@ -181,22 +157,20 @@
           <tr><td>310</td><td>أساسيات نظم المعلومات</td><td>3</td><td>75</td><td>ج</td></tr>
         </tbody>
       </table>
-      <p><strong>📊 التقدير الكلي:</strong> جيد</p>
-      <p><strong>📚 الساعات المطلوبة:</strong> 15</p>
-      <p><strong>✅ الساعات المكتسبة:</strong> 15</p>
+      <div class="footer-info">
+        <p><strong>📊 التقدير الكلي:</strong> جيد</p>
+        <p><strong>📚 الساعات المطلوبة:</strong> 15</p>
+        <p><strong>✅ الساعات المكتسبة:</strong> 15</p>
+      </div>
     </div>
+
   </div>
 
   <script>
-    function showSection(sectionId) {
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(sectionId).classList.add('active');
-    }
-
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("hidden");
+    function showSection(id) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => sec.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
     }
 
     function logout() {
